@@ -1,32 +1,50 @@
-import { readFileSync, writeFileSync } from "fs"
-import { dirname } from "path"
-import { fileURLToPath } from "url"
+import Vehicle from "./Vehicle.js"
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+let args = process.argv.slice(2)
+let command = args[0]
 
-class Vehicle {
-	constructor (id, marca, modelo, asientos) {
-		this.id = id
-		this.marca = marca
-		this.modelo = modelo
-		this.asientos = asientos
-	}
+const readCars = () => {
+	let car = new Vehicle()
+	console.log(car.findAll())
+}
 
-	findAll () {
-		let JSONResponse = readFileSync(`${__dirname}/data/data.json`, 'utf-8')
-		let response = JSON.parse(JSONResponse)
-		return response.cars
-	}
+const searchById = (id) => {
+	let car = new Vehicle()
+	let result = car.findById(id)
 
-	findById (id) {
-		return this.findAll().find(car => car.id === id)
-	}
+	result
+		? console.log(result)
+		: console.log(`Auto con id: ${id}, no encontrado!`)
+}
 
-	findByBrand (carBrand) {
-		return this.findAll()
-			.filter(car => car.marca.toLowerCase() === carBrand.toLowerCase())
+const searchByBrand = (brand) => {
+	let car = new Vehicle()
+	let result = car.findByBrand(brand)
+
+	result.length > 0
+		? console.log(result)
+		: console.log(`Auto de la marca: ${brand}, no encontrado!`)
+}
+
+function main () {
+	switch (command) {
+		case "leer":
+			// in the terminal => node src/operations.js leer
+			readCars()
+			break
+		case "buscar":
+			// in the terminal => node src/operations.js buscar 1
+			let id = args[1]
+			searchById(id)
+			break
+		case "marca":
+			// in the terminal => node src/operations.js marca Ferrari
+			let marca = args[1]
+			searchByBrand(marca)
+			break
+		default:
+			console.log("comando no reconocido")
 	}
 }
 
-let car = new Vehicle()
-console.log(car)
+main()
