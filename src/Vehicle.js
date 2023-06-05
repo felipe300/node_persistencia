@@ -41,8 +41,7 @@ class Vehicle {
 		}
 
 		let result = this.findVehicles()
-		console.log(result)
-		result.cars.push(newCar)
+		result.push(newCar)
 		writeFileSync(
 			`${__dirname}/data/data.json`,
 			JSON.stringify(result, null, 4),

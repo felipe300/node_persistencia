@@ -22,5 +22,11 @@
         "marca": "Mazda",
         "modelo": "nose",
         "asientos": "2"
+    },
+    {
+        "id": "001d51a4",
+        "marca": "foo",
+        "modelo": "bar",
+        "asientos": "baz"
     }
 ]
