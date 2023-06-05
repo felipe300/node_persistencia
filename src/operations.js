@@ -26,7 +26,7 @@ const searchByBrand = (brand) => {
 		: console.log(`Auto de la marca: ${brand}, no encontrado!`)
 }
 
-const createCar = (brand, model, sits) => {
+const createVehicle = (brand, model, sits) => {
 	let car = new Vehicle(undefined, brand, model, sits)
 	car.createVehicle()
 	console.log(`Vehiculo ${brand}, creado!`)
@@ -40,6 +40,12 @@ const updateVehicle = (id, brand, model, sits) => {
 	let car = new Vehicle(id, brand, model, sits)
 	let result = car.update()
 	console.log(`Vehiculo ${result.id}, se ha actualizado!`)
+}
+
+const deleteVehicle = (id) => {
+	let car = new Vehicle()
+	car.delete(id)
+	console.log(`Vehiculo ${id}, eliminado!`)
 }
 
 function main () {
@@ -63,7 +69,8 @@ function main () {
 			let value1 = args[1]
 			let value2 = args[2]
 			let value3 = args[3]
-			createCar(value1, value2, value3)
+
+			create(value1, value2, value3)
 			break
 		case "actualizar":
 			// in the terminal => node src/operations.js actualizar id Mazda nose 3 
@@ -73,6 +80,11 @@ function main () {
 			let updateSits = args[4]
 
 			updateVehicle(updateId, updateBrand, updateModel, updateSits)
+			break
+		case "eliminar":
+			// in the terminal => node src/operations.js actualizar id Mazda nose 3 
+			let deleteId = args[1]
+			deleteVehicle(deleteId)
 			break
 		default:
 			console.log("comando no reconocido")

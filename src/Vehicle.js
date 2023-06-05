@@ -32,7 +32,7 @@ class Vehicle {
 			.filter(car => car.marca.toLowerCase() === carBrand.toLowerCase())
 	}
 
-	createVehicle () {
+	create () {
 		let newCar = {
 			id: uuid().slice(0, 8),
 			marca: this.marca,
@@ -63,9 +63,21 @@ class Vehicle {
 
 			return filtered
 		} else {
-			return { message: `El id: ${this.id} no fue necontrado` }
+			return { message: `El vehiculo con el id: ${this.id} no fue necontrado` }
 		}
+	}
 
+	delete (id) {
+		let result = this.findAll()
+		let found = this.findById(id)
+
+		if (found) {
+			result = result.filter(car => car.id !== id)
+			writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(result, null, 4), 'utf8')
+			return result
+		} else {
+			return { message: `El vehiculo con el id: ${id} no fue necontrado` }
+		}
 	}
 }
 
