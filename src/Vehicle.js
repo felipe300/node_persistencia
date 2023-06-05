@@ -13,10 +13,14 @@ class Vehicle {
 		this.asientos = asientos
 	}
 
-	findAll () {
+	find () {
 		let JSONResponse = readFileSync(`${__dirname}/data/data.json`, 'utf-8')
 		let response = JSON.parse(JSONResponse)
-		return response.cars
+		return response
+	}
+
+	findAll () {
+		return this.find().cars
 	}
 
 	findById (id) {
@@ -26,6 +30,26 @@ class Vehicle {
 	findByBrand (carBrand) {
 		return this.findAll()
 			.filter(car => car.marca.toLowerCase() === carBrand.toLowerCase())
+	}
+
+	createVehicle () {
+		let newCar = {
+			id: uuid().slice(0, 8),
+			marca: this.marca,
+			modelo: this.modelo,
+			asientos: this.asientos
+		}
+
+		let result = this.find()
+		console.log(result)
+		result.cars.push(newCar)
+		writeFileSync(
+			`${__dirname}/data/data.json`,
+			JSON.stringify(result, null, 4),
+			'utf-8'
+		)
+
+		return result
 	}
 
 	updateVehicle () {
@@ -52,9 +76,9 @@ class Vehicle {
 
 export default Vehicle
 
-// let car = new Vehicle()
+let car = new Vehicle()
 // let car2 = new Vehicle(1, "Ferrari", "F40", 300)
 // let result = car2.updateVehicle()
-// console.log(car.findById(1))
+console.log(car.findById(1))
 // console.log(result)
 // console.log(car2.findAll())

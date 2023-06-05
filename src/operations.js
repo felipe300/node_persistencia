@@ -26,6 +26,12 @@ const searchByBrand = (brand) => {
 		: console.log(`Auto de la marca: ${brand}, no encontrado!`)
 }
 
+const createCar = (brand, model, sits) => {
+	let car = new Vehicle(undefined, brand, model, sits)
+	car.createVehicle()
+	console.log(`Vehiculo ${brand}, creado!`)
+}
+
 function main () {
 	switch (command) {
 		case "leer":
@@ -41,6 +47,13 @@ function main () {
 			// in the terminal => node src/operations.js marca Ferrari
 			let marca = args[1]
 			searchByBrand(marca)
+			break
+		case "crear":
+			// in the terminal => node src/operations.js crear foo bar baz
+			let value1 = args[1]
+			let value2 = args[2]
+			let value3 = args[3]
+			createCar(value1, value2, value3)
 			break
 		default:
 			console.log("comando no reconocido")
