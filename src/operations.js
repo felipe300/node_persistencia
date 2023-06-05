@@ -32,6 +32,16 @@ const createCar = (brand, model, sits) => {
 	console.log(`Vehiculo ${brand}, creado!`)
 }
 
+const updateVehicle = (id, brand, model, sits) => {
+	brand === 'undefined' ? brand = undefined : brand = brand
+	model === 'undefined' ? model = undefined : model = model
+	sits === 'undefined' ? sits = undefined : sits = sits
+
+	let car = new Vehicle(id, brand, model, sits)
+	let result = car.update()
+	console.log(`Vehiculo ${result.id}, se ha actualizado!`)
+}
+
 function main () {
 	switch (command) {
 		case "leer":
@@ -54,6 +64,15 @@ function main () {
 			let value2 = args[2]
 			let value3 = args[3]
 			createCar(value1, value2, value3)
+			break
+		case "actualizar":
+			// in the terminal => node src/operations.js actualizar id Mazda nose 3 
+			let updateId = args[1]
+			let updateBrand = args[2]
+			let updateModel = args[3]
+			let updateSits = args[4]
+
+			updateVehicle(updateId, updateBrand, updateModel, updateSits)
 			break
 		default:
 			console.log("comando no reconocido")

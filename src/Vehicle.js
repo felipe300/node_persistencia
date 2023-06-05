@@ -13,14 +13,14 @@ class Vehicle {
 		this.asientos = asientos
 	}
 
-	find () {
+	findVehicles () {
 		let JSONResponse = readFileSync(`${__dirname}/data/data.json`, 'utf-8')
 		let response = JSON.parse(JSONResponse)
 		return response
 	}
 
 	findAll () {
-		return this.find().cars
+		return this.findVehicles()
 	}
 
 	findById (id) {
@@ -40,7 +40,7 @@ class Vehicle {
 			asientos: this.asientos
 		}
 
-		let result = this.find()
+		let result = this.findVehicles()
 		console.log(result)
 		result.cars.push(newCar)
 		writeFileSync(
@@ -52,33 +52,29 @@ class Vehicle {
 		return result
 	}
 
-	updateVehicle () {
-		let JSONResponse = readFileSync(`${__dirname}/data/data.json`, 'utf-8')
-		let response = JSON.parse(JSONResponse)
-		let filtered = response.cars.find((car) => car.id === this.id)
+	update () {
+		let result = this.findAll()
+		let filtered = result.find(car => car.id === this.id)
 
 		if (filtered) {
-			filtered.marca = this.marca
-			filtered.modelo = this.modelo
-			filtered.asientos = this.asientos
+			filtered.marca = this.marca || filtered.marca
+			filtered.modelo = this.modelo || filtered.modelo
+			filtered.asientos = this.asientos || filtered.asientos
+			writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(result, null, 4), 'utf8')
 
-			writeFileSync(
-				`${__dirname}/data/data.json`,
-				JSON.stringify(response, null, 4),
-				'utf-8'
-			)
 			return filtered
 		} else {
-			return []
+			return { message: `El id: ${this.id} no fue necontrado` }
 		}
+
 	}
 }
 
 export default Vehicle
 
-let car = new Vehicle()
+// let car = new Vehicle()
 // let car2 = new Vehicle(1, "Ferrari", "F40", 300)
 // let result = car2.updateVehicle()
-console.log(car.findById(1))
+// console.log(car.findById(1))
 // console.log(result)
 // console.log(car2.findAll())
